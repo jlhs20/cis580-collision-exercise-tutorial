@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using CollisionExercise.Collisions;
 
 namespace CollisionExercise;
 
@@ -22,6 +23,10 @@ public class SlimeGhostSprite
     private Vector2 position = new Vector2(200, 200);
 
     private bool flipped;
+
+    private BoundingRectangle _bounds = new BoundingRectangle(new Vector2(200-16, 200-16), 32, 32); //new BoundingCircle(new Vector2(200, 200), 16);
+    public BoundingRectangle Bounds => _bounds;
+    public Color Color { get; set; } = Color.White;
 
     /// <summary>
     /// Loads the sprite texture using the provided ContentManager
@@ -59,6 +64,9 @@ public class SlimeGhostSprite
             position += new Vector2(1, 0);
             flipped = false;
         }
+        _bounds.X = position.X - 16;
+        _bounds.Y = position.Y - 16;
+        //_bounds.Center = position;
     }
 
     /// <summary>
@@ -69,6 +77,6 @@ public class SlimeGhostSprite
     public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-        spriteBatch.Draw(texture, position, null, Color.White, 0, new Vector2(0, 0), 0.25f, spriteEffects, 0);
+        spriteBatch.Draw(texture, position, null, Color, 0, new Vector2(64, 64), 0.25f, spriteEffects, 0);
     }
 }

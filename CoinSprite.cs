@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using CollisionExercise.Collisions;
 
 
 namespace CollisionExercise;
@@ -20,6 +21,10 @@ public class CoinSprite
     private Vector2 position;
 
     private Texture2D texture;
+    private BoundingCircle _bounds;
+    public BoundingCircle Bounds => _bounds;
+
+    public bool Collected { get; set; } = false;
 
     /// <summary>
     /// Creates a new coin sprite
@@ -28,6 +33,7 @@ public class CoinSprite
     public CoinSprite(Vector2 position)
     {
         this.position = position;
+        this._bounds = new BoundingCircle(position + new Vector2(8, 8), 8);
     }
 
     /// <summary>
@@ -56,6 +62,6 @@ public class CoinSprite
         }
 
         var source = new Rectangle(animationFrame * 16, 0, 16, 16);
-        spriteBatch.Draw(texture, position, source, Color.White);
+        if (!Collected) spriteBatch.Draw(texture, position, source, Color.White);
     }
 }
